@@ -1,0 +1,159 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class PlainWhiteGUI {
+    public PlainWhiteGUI(){
+        // Establishing database connection
+        Connection connection = null;
+        try {
+            // JDBC URL for MySQL database named "student"
+            String url = "jdbc:mysql://localhost:3306/student";
+            // Database credentials
+            String username = "root";
+            String password = "vaibhav@#6388779800";
+
+            // Establishing the connection
+            connection = DriverManager.getConnection(url, username, password);
+
+            // Print message if connection is successful
+            System.out.println("Connected to the database!");
+        } catch (SQLException e) {
+            // Handle any errors
+            e.printStackTrace();
+        } finally {
+            // Close the connection when done
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Dashboard block
+        JLabel label = new JLabel();
+        label.setText("DASHBOARD");
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Arial", Font.PLAIN, 80));
+
+        JButton button1 = new JButton("HISTORY");
+        JButton button2 = new JButton("PHYSICS");
+        JButton button3 = new JButton("CHEMISTRY");
+        JButton button4 = new JButton("MATH");
+        JButton button5 = new JButton("ENGLISH");
+
+        // Home button
+        JButton homeButton = new JButton("Home");
+        homeButton.setForeground(Color.WHITE);
+        homeButton.setBackground(Color.BLACK);
+        homeButton.setFocusPainted(false); // Remove the border around the text
+
+        // Panels
+        JPanel blackpanel = new JPanel(new GridBagLayout());
+        blackpanel.setBackground(Color.BLACK);
+        blackpanel.setPreferredSize(new Dimension(1550, 250));
+
+        JPanel bluepanel = new JPanel();
+        bluepanel.setBackground(Color.BLUE);
+        bluepanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10)); // Increased horizontal gap to 30
+
+        // Add buttons to blue panel
+        bluepanel.add(button1);
+        bluepanel.add(button2);
+        bluepanel.add(button3);
+        bluepanel.add(button4);
+        bluepanel.add(button5);
+
+        // Container for all panels
+        JPanel contentPane = new JPanel();
+        contentPane.setLayout(new BorderLayout());
+        contentPane.add(blackpanel, BorderLayout.NORTH);
+        contentPane.add(bluepanel, BorderLayout.CENTER);
+
+        // Scroll pane for the entire content pane
+        JScrollPane scrollPane = new JScrollPane(contentPane);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        // Frame
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1200, 800);
+        frame.setVisible(true);
+
+        frame.add(scrollPane);
+
+        // Action listeners for each button
+        button1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                createNewWindow("HISTORY Window");
+            }
+        });
+
+        button2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                createNewWindow("PHYSICS Window");
+            }
+        });
+
+        button3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                createNewWindow("CHEMISTRY Window");
+            }
+        });
+
+        button4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                createNewWindow("MATH Window");
+            }
+        });
+
+        button5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                createNewWindow("ENGLISH Window");
+            }
+        });
+
+        homeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(frame, "Home Button Clicked");
+            }
+        });
+
+        // Adding image below the blue panel
+        ImageIcon imageIcon = new ImageIcon("E:\\image.jpg"); // Change the path to your image
+        JLabel imageLabel = new JLabel(imageIcon);
+        contentPane.add(imageLabel, BorderLayout.SOUTH);
+
+        // Set label at the center of the black panel using GridBagConstraints
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        blackpanel.add(label, gbc);
+
+        // Add home button to the black panel
+        gbc.gridx = 1; // Position it next to the label
+        gbc.insets = new Insets(-200, -2500, 0, 0); // Add some padding between the label and button
+        blackpanel.add(homeButton, gbc);
+    }
+    public static void main(String args[]) {
+        new PlainWhiteGUI();
+    }
+
+    // Method to create and add a new window to the content pane
+    public static void createNewWindow(String windowTitle) {
+        JFrame newFrame = new JFrame(windowTitle);
+        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close only this window, not the main frame
+        newFrame.setSize(400, 300);
+        newFrame.setLocationRelativeTo(null); // Center the window
+        newFrame.setVisible(true);
+    }
+}
