@@ -1,0 +1,115 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class LoginGUI extends JFrame {
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+
+    public LoginGUI() {
+        super("Login Page");
+
+        // Creating components
+        JLabel usernameLabel = new JLabel("Username:");
+        JLabel passwordLabel = new JLabel("Password:");
+        usernameField = new JTextField(20);
+        passwordField = new JPasswordField(20);
+        JButton loginButton = new JButton("Login");
+
+        // Setting smaller font for the button
+        Font buttonFont = loginButton.getFont();
+        loginButton.setFont(buttonFont.deriveFont(buttonFont.getSize() - 2f));
+
+        // Setting layout
+        JPanel contentPane = new JPanel(new BorderLayout());
+
+        // Top panel with red background
+        JPanel topPanel = new JPanel();
+        topPanel.setBackground(Color.RED);
+        topPanel.setPreferredSize(new Dimension(500, 50));
+
+        // Center panel with blue background
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel.setBackground(Color.BLUE);
+
+        // Adding username label and text field
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        centerPanel.add(usernameLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        centerPanel.add(usernameField, gbc);
+
+        // Adding password label and text field
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        centerPanel.add(passwordLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        centerPanel.add(passwordField, gbc);
+
+        // Adding login button
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        centerPanel.add(loginButton, gbc);
+
+        // Adding components to the content pane
+        contentPane.add(topPanel, BorderLayout.NORTH);
+        contentPane.add(centerPanel, BorderLayout.CENTER);
+
+        // Setting the content pane
+        setContentPane(contentPane);
+
+        // Action listener for the login button
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                char[] password = passwordField.getPassword();
+
+                // Validate login credentials here (Dummy validation)
+                if (username.equals("vaibhav") && String.valueOf(password).equals("e23cseu1536")) {
+                    // Show a success message
+                    JOptionPane.showMessageDialog(LoginGUI.this, "Welcome Vaibhav");
+
+                    // Clear fields after successful login
+                    usernameField.setText("");
+                    passwordField.setText("");
+
+                    // Open the home page
+                    new PlainWhiteGUI();
+
+                    // Close the login page
+                    dispose();
+                } else {
+                    // Show an error message
+                    JOptionPane.showMessageDialog(LoginGUI.this, "Invalid username or password!", "Error", JOptionPane.ERROR_MESSAGE);
+
+                    // Clear password field after failed login attempt
+                    passwordField.setText("");
+                }
+            }
+        });
+
+        // Setting frame properties
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 200); // Adjusted size for login panel
+        setLocationRelativeTo(null); // Center the window
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new LoginGUI();
+            }
+        });
+    }
+}
